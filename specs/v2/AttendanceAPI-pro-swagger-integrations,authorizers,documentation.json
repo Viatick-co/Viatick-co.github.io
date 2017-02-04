@@ -1,0 +1,769 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "2017-02-04T05:21:19Z",
+		"title": "AttendanceAPI"
+	},
+	"host": "bk22lc2fh1.execute-api.us-west-2.amazonaws.com",
+	"basePath": "/pro",
+	"schemes": [
+		"https"
+	],
+	"paths": {
+		"/attendance/sns/exchange": {
+			"post": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [{
+					"in": "body",
+					"name": "body",
+					"description": "Exchange device token with aws sns arn",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/ExchangeIn"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/ExchangeOut"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							}
+						}
+					},
+					"400": {
+						"description": "400 response"
+					},
+					"500": {
+						"description": "500 response"
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200",
+							"responseParameters": {
+								"method.response.header.Access-Control-Allow-Origin": "'*'"
+							}
+						},
+						".*system.*": {
+							"statusCode": "500",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						},
+						".*bad request.*": {
+							"statusCode": "400",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						}
+					},
+					"uri": "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:788170495069:function:ExchangePushToken/invocations",
+					"passthroughBehavior": "when_no_templates",
+					"httpMethod": "POST",
+					"contentHandling": "CONVERT_TO_TEXT",
+					"type": "aws"
+				}
+			},
+			"options": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/Empty"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Methods": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Headers": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200",
+							"responseParameters": {
+								"method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'",
+								"method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+								"method.response.header.Access-Control-Allow-Origin": "'*'"
+							}
+						}
+					},
+					"passthroughBehavior": "when_no_match",
+					"requestTemplates": {
+						"application/json": "{\"statusCode\": 200}"
+					},
+					"type": "mock"
+				}
+			}
+		},
+		"/attendance/sns/push": {
+			"post": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [{
+					"in": "body",
+					"name": "body",
+					"description": "Push notification to arns",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/PushIn"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/PushOut"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							}
+						}
+					},
+					"500": {
+						"description": "500 response"
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200",
+							"responseParameters": {
+								"method.response.header.Access-Control-Allow-Origin": "'*'"
+							}
+						},
+						".*system.*": {
+							"statusCode": "500",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						}
+					},
+					"uri": "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:788170495069:function:PushNotification/invocations",
+					"passthroughBehavior": "when_no_templates",
+					"httpMethod": "POST",
+					"contentHandling": "CONVERT_TO_TEXT",
+					"type": "aws"
+				}
+			},
+			"options": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/Empty"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Methods": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Headers": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200",
+							"responseParameters": {
+								"method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'",
+								"method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+								"method.response.header.Access-Control-Allow-Origin": "'*'"
+							}
+						}
+					},
+					"passthroughBehavior": "when_no_match",
+					"requestTemplates": {
+						"application/json": "{\"statusCode\": 200}"
+					},
+					"type": "mock"
+				}
+			}
+		},
+		"/attendance/start": {
+			"post": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [{
+					"in": "body",
+					"name": "body",
+					"description": "Start take attendance workflow",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/AttendanceStartIn"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/AttendanceStartOut"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							}
+						}
+					},
+					"404": {
+						"description": "404 response"
+					},
+					"409": {
+						"description": "409 response"
+					},
+					"500": {
+						"description": "500 response"
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						".*system.*": {
+							"statusCode": "500",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						},
+						"default": {
+							"statusCode": "200"
+						},
+						".*conflict.*": {
+							"statusCode": "409",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						},
+						".*not found.*": {
+							"statusCode": "404",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						}
+					},
+					"uri": "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:788170495069:function:StartTask/invocations",
+					"passthroughBehavior": "when_no_templates",
+					"httpMethod": "POST",
+					"contentHandling": "CONVERT_TO_TEXT",
+					"type": "aws"
+				}
+			},
+			"options": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/Empty"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Methods": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Headers": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200",
+							"responseParameters": {
+								"method.response.header.Access-Control-Allow-Methods": "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'",
+								"method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+								"method.response.header.Access-Control-Allow-Origin": "'*'"
+							}
+						}
+					},
+					"passthroughBehavior": "when_no_match",
+					"requestTemplates": {
+						"application/json": "{\"statusCode\": 200}"
+					},
+					"type": "mock"
+				}
+			}
+		},
+		"/attendance/stop": {
+			"post": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [{
+					"in": "body",
+					"name": "body",
+					"description": "Stop take attendance workflow",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/AttendanceStopIn"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/AttendanceStopOut"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							}
+						}
+					},
+					"202": {
+						"description": "202 response"
+					},
+					"404": {
+						"description": "404 response"
+					},
+					"500": {
+						"description": "500 response"
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						".*system.*": {
+							"statusCode": "500",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						},
+						"default": {
+							"statusCode": "200"
+						},
+						".*accepted.*": {
+							"statusCode": "202",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						},
+						".*not found.*": {
+							"statusCode": "404",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						}
+					},
+					"uri": "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:788170495069:function:StopTask/invocations",
+					"passthroughBehavior": "when_no_templates",
+					"httpMethod": "POST",
+					"contentHandling": "CONVERT_TO_TEXT",
+					"type": "aws"
+				}
+			},
+			"options": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/Empty"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Methods": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Headers": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200",
+							"responseParameters": {
+								"method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+								"method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+								"method.response.header.Access-Control-Allow-Origin": "'*'"
+							}
+						}
+					},
+					"passthroughBehavior": "when_no_match",
+					"requestTemplates": {
+						"application/json": "{\"statusCode\": 200}"
+					},
+					"type": "mock"
+				}
+			}
+		},
+		"/attendance/take": {
+			"post": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [{
+					"in": "body",
+					"name": "body",
+					"description": "Take attendance",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/TakeAttendanceIn"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/TakeAttendanceOut"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							}
+						}
+					},
+					"400": {
+						"description": "400 response"
+					},
+					"500": {
+						"description": "500 response"
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200"
+						},
+						".*system.*": {
+							"statusCode": "500",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						},
+						".*bad request.*": {
+							"statusCode": "400",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						}
+					},
+					"uri": "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:788170495069:function:TakeAttendance/invocations",
+					"passthroughBehavior": "when_no_templates",
+					"httpMethod": "POST",
+					"contentHandling": "CONVERT_TO_TEXT",
+					"type": "aws"
+				}
+			},
+			"options": {
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/Empty"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Methods": {
+								"type": "string"
+							},
+							"Access-Control-Allow-Headers": {
+								"type": "string"
+							}
+						}
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200",
+							"responseParameters": {
+								"method.response.header.Access-Control-Allow-Methods": "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'",
+								"method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+								"method.response.header.Access-Control-Allow-Origin": "'*'"
+							}
+						}
+					},
+					"passthroughBehavior": "when_no_match",
+					"requestTemplates": {
+						"application/json": "{\"statusCode\": 200}"
+					},
+					"type": "mock"
+				}
+			}
+		}
+	},
+	"definitions": {
+		"Empty": {
+			"type": "object",
+			"title": "Empty Schema"
+		},
+		"ExchangeIn": {
+			"type": "object",
+			"properties": {
+				"token": {
+					"type": "string",
+					"example": "d45a69d29ac35d1373f182f635fd0228f07030578d1d142297983589981ae61a"
+				},
+				"platform": {
+					"type": "string",
+					"example": "apns_sandbox"
+				}
+			}
+		},
+		"ExchangeOut": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "int",
+					"example": 200
+				},
+				"EndpointArn": {
+					"type": "string",
+					"example": "arn:aws:sns:us-west-2:788170495069:endpoint/APNS_SANDBOX/Attendance_Push_Dev/0c9bfea0-efdd-3240-aa65-2c6726c54612"
+				}
+			}
+		},
+		"PushIn": {
+			"type": "object",
+			"properties": {
+				"title": {
+					"type": "string",
+					"example": "sample_title"
+				},
+				"text": {
+					"type": "string",
+					"example": "sample_text"
+				},
+				"actionId": {
+					"type": "string",
+					"example": "action_notification"
+				},
+				"arns": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"example": "arn:aws:sns:us-west-2:788170495069:endpoint/APNS_SANDBOX/Attendance_Push_Dev/b5fdaa22-3af9-333c-90e5-21d90a0f3637"
+					}
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"key": {
+							"type": "string",
+							"example": "value"
+						}
+					}
+				}
+			}
+		},
+		"PushOut": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "int",
+					"example": 200
+				},
+				"message": {
+					"type": "string",
+					"example": "done"
+				}
+			}
+		},
+		"AttendanceStartIn": {
+			"type": "object",
+			"properties": {
+				"class_rm_id": {
+					"type": "string",
+					"example": "27"
+				},
+				"delay_sec": {
+					"type": "int",
+					"example": 10
+				},
+				"users": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"userId": {
+								"type": "string",
+								"example": "user_id_001"
+							},
+							"token": {
+								"type": "string",
+								"example": "arn:aws:sns:us-west-2:788170495069:endpoint/APNS_SANDBOX/Attendance_Push_Dev/b5fdaa22-3af9-333c-90e5-21d90a0f3637"
+							}
+						}
+					}
+				}
+			}
+		},
+		"AttendanceStartOut": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "int",
+					"example": 200
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"executionArn": {
+							"type": "string",
+							"example": "arn:aws:states:us-west-2:788170495069:execution:Attendance_Taking:36fd69b7-c66e-43a8-ad28-e40c1c271025"
+						},
+						"startDate": {
+							"type": "string",
+							"example": "2017-02-04T07:45:26.893Z"
+						},
+						"taskId": {
+							"type": "string",
+							"example": "task_id_1486194326764"
+						}
+					}
+				}
+			}
+		},
+		"AttendanceStopIn": {
+			"type": "object",
+			"properties": {
+				"taskId": {
+					"type": "string",
+					"example": "task_id_1486195282225"
+				}
+			}
+		},
+		"AttendanceStopOut": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "int",
+					"example": 200
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"Attributes": {
+							"type": "object",
+							"properties": {
+								"END_DATE": {
+									"type": "string",
+									"example": "2017-02-04T08:01:40.344Z"
+								},
+								"STATUS_T": {
+									"type": "string",
+									"example": "stopping"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"TakeAttendanceIn": {
+			"type": "object",
+			"properties": {
+				"recordId": {
+					"type": "string",
+					"example": "record_id_14861943267641"
+				}
+			}
+		},
+		"TakeAttendanceOut": {
+			"type": "object",
+			"properties": {
+				"status": {
+					"type": "int",
+					"example": 200
+				},
+				"data": {
+					"type": "object",
+					"properties": {
+						"Attributes": {
+							"type": "object",
+							"properties": {
+								"ATTEND": {
+									"type": "boolean",
+									"example": true
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"Error400": {
+			"type": "object",
+			"properties": {
+				"message": {
+					"type": "string",
+					"example": "bad request: missing input..."
+				}
+			}
+		}
+	}
+}
