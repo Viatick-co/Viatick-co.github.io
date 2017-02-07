@@ -563,14 +563,19 @@
 		},
 		"ExchangeIn": {
 			"type": "object",
+			"required": [
+				"token", "platform"
+			],
 			"properties": {
 				"token": {
 					"type": "string",
-					"example": "d45a69d29ac35d1373f182f635fd0228f07030578d1d142297983589981ae61a"
+					"example": "d45a69d29ac35d1373f182f635fd0228f07030578d1d142297983589981ae61a",
+					"description": "Device token get from device native api."
 				},
 				"platform": {
 					"type": "string",
-					"example": "apns_sandbox"
+					"example": "apns_sandbox",
+					"description": "Platform of push application. E.g. 'apns' is Apple push notification production, 'gcm' is Google butt messaging service."
 				}
 			}
 		},
@@ -579,35 +584,44 @@
 			"properties": {
 				"status": {
 					"type": "int",
-					"example": 200
+					"example": 200,
+					"description": "Success status"
 				},
 				"EndpointArn": {
 					"type": "string",
-					"example": "arn:aws:sns:us-west-2:788170495069:endpoint/APNS_SANDBOX/Attendance_Push_Dev/0c9bfea0-efdd-3240-aa65-2c6726c54612"
+					"example": "arn:aws:sns:us-west-2:788170495069:endpoint/APNS_SANDBOX/Attendance_Push_Dev/0c9bfea0-efdd-3240-aa65-2c6726c54612",
+					"description": "Exchange endpoint arn for future push purpose."
 				}
 			}
 		},
 		"PushIn": {
 			"type": "object",
+			"required": [
+				"arns"
+			],
 			"properties": {
 				"title": {
 					"type": "string",
-					"example": "sample_title"
+					"example": "sample_title",
+					"description": "Push title"
 				},
 				"text": {
 					"type": "string",
-					"example": "sample_text"
+					"example": "sample_text",
+					"description": "Push message"
 				},
 				"actionId": {
 					"type": "string",
-					"example": "action_notification"
+					"example": "action_notification",
+					"description": "This value is pre defined ID for mobile to choose which action to be done. E.g. 'action_notification' is reserved for push notification and 'action_take_attendance' is reserved for call4Attendance() logic in SDK."
 				},
 				"arns": {
 					"type": "array",
 					"items": {
 						"type": "string",
 						"example": "arn:aws:sns:us-west-2:788170495069:endpoint/APNS_SANDBOX/Attendance_Push_Dev/b5fdaa22-3af9-333c-90e5-21d90a0f3637"
-					}
+					},
+					"description": "Array of endpoint arns for aws sns push."
 				},
 				"data": {
 					"type": "object",
@@ -616,7 +630,8 @@
 							"type": "string",
 							"example": "value"
 						}
-					}
+					},
+					"description": "Key value pair of hidden data wants to send to mobile device via push notification."
 				}
 			}
 		},
@@ -625,40 +640,53 @@
 			"properties": {
 				"status": {
 					"type": "int",
-					"example": 200
+					"example": 200,
+					"description": "Success status"
 				},
 				"message": {
 					"type": "string",
-					"example": "done"
+					"example": "done",
+					"description": "Success message"
 				}
 			}
 		},
 		"AttendanceStartIn": {
 			"type": "object",
+			"required": [
+				"class_rm_id", "delay_sec", "users"
+			],
 			"properties": {
 				"class_rm_id": {
 					"type": "string",
-					"example": "27"
+					"example": "27",
+					"description": "Class room ID provided by client and this ID has to map in BMS."
 				},
 				"delay_sec": {
 					"type": "int",
-					"example": 10
+					"example": 10,
+					"description": "Delay / waiting period between each attendance cold call in attendance taking workflow."
 				},
 				"users": {
 					"type": "array",
 					"items": {
 						"type": "object",
+						"required": [
+							"userId", "token"
+						],
 						"properties": {
 							"userId": {
 								"type": "string",
-								"example": "user_id_001"
+								"example": "user_id_001",
+								"description": "User ID provided by client, the final attendance results are tie to coosponding userIds."
 							},
 							"token": {
 								"type": "string",
-								"example": "arn:aws:sns:us-west-2:788170495069:endpoint/APNS_SANDBOX/Attendance_Push_Dev/b5fdaa22-3af9-333c-90e5-21d90a0f3637"
+								"example": "arn:aws:sns:us-west-2:788170495069:endpoint/APNS_SANDBOX/Attendance_Push_Dev/b5fdaa22-3af9-333c-90e5-21d90a0f3637",
+								"description": "Aws sns endpoint arn for each user. It is exchanged using exchange api and stored by client."
 							}
 						}
-					}
+					},
+					"description": "Array of user object."
 				}
 			}
 		},
@@ -667,22 +695,26 @@
 			"properties": {
 				"status": {
 					"type": "int",
-					"example": 200
+					"example": 200,
+					"description": "Success status."
 				},
 				"data": {
 					"type": "object",
 					"properties": {
 						"executionArn": {
 							"type": "string",
-							"example": "arn:aws:states:us-west-2:788170495069:execution:Attendance_Taking:36fd69b7-c66e-43a8-ad28-e40c1c271025"
+							"example": "arn:aws:states:us-west-2:788170495069:execution:Attendance_Taking:36fd69b7-c66e-43a8-ad28-e40c1c271025",
+							"description": "Step Functions execution arn from aws."
 						},
 						"startDate": {
 							"type": "string",
-							"example": "2017-02-04T07:45:26.893Z"
+							"example": "2017-02-04T07:45:26.893Z",
+							"description": "Start date of the workflow."
 						},
 						"taskId": {
 							"type": "string",
-							"example": "task_id_1486194326764"
+							"example": "task_id_1486194326764",
+							"description": "Unique task identifier use to stop the workflow."
 						}
 					}
 				}
@@ -690,10 +722,14 @@
 		},
 		"AttendanceStopIn": {
 			"type": "object",
+			"required": [
+				"taskId"
+			],
 			"properties": {
 				"taskId": {
 					"type": "string",
-					"example": "task_id_1486195282225"
+					"example": "task_id_1486195282225",
+					"description": "Task identifier get from start workflow api."
 				}
 			}
 		},
@@ -702,7 +738,8 @@
 			"properties": {
 				"status": {
 					"type": "int",
-					"example": 200
+					"example": 200,
+					"description": "Success status."
 				},
 				"data": {
 					"type": "object",
@@ -712,11 +749,13 @@
 							"properties": {
 								"END_DATE": {
 									"type": "string",
-									"example": "2017-02-04T08:01:40.344Z"
+									"example": "2017-02-04T08:01:40.344Z",
+									"description": "End date of the workflow."
 								},
 								"STATUS_T": {
 									"type": "string",
-									"example": "stopping"
+									"example": "stopping",
+									"description": "Status of workflow."
 								}
 							}
 						}
@@ -726,10 +765,14 @@
 		},
 		"TakeAttendanceIn": {
 			"type": "object",
+			"required": [
+				"recordId"
+			],
 			"properties": {
 				"recordId": {
 					"type": "string",
-					"example": "record_id_14861943267641"
+					"example": "record_id_14861943267641",
+					"description": "Attendance record ID generated by workflow and send to user via push notification."
 				}
 			}
 		},
@@ -738,7 +781,8 @@
 			"properties": {
 				"status": {
 					"type": "int",
-					"example": 200
+					"example": 200,
+					"description": "Success status."
 				},
 				"data": {
 					"type": "object",
@@ -748,7 +792,8 @@
 							"properties": {
 								"ATTEND": {
 									"type": "boolean",
-									"example": true
+									"example": true,
+									"description": "Record status. E.g. 'true' means attended, default value is 'false'."
 								}
 							}
 						}
