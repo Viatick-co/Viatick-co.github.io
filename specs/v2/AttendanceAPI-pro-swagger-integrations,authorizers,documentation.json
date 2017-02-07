@@ -1045,7 +1045,7 @@
 			"type": "object",
 			"properties": {
 				"status": {
-					"type": "int",
+					"type": "integer",
 					"example": 200,
 					"description": "Success status"
 				},
