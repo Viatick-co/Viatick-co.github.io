@@ -1094,7 +1094,7 @@
 			"type": "object",
 			"properties": {
 				"status": {
-					"type": "int",
+					"type": "integer",
 					"example": 200,
 					"description": "Success status"
 				},
@@ -1143,7 +1143,7 @@
 			"type": "object",
 			"properties": {
 				"status": {
-					"type": "int",
+					"type": "integer",
 					"example": 200,
 					"description": "Success status"
 				},
@@ -1201,7 +1201,7 @@
 			"type": "object",
 			"properties": {
 				"status": {
-					"type": "int",
+					"type": "integer",
 					"example": 200,
 					"description": "Success status"
 				},
@@ -1263,7 +1263,7 @@
 			"type": "object",
 			"properties": {
 				"status": {
-					"type": "int",
+					"type": "integer",
 					"example": 200,
 					"description": "Success status"
 				},
@@ -1319,7 +1319,7 @@
 			"type": "object",
 			"properties": {
 				"status": {
-					"type": "int",
+					"type": "integer",
 					"example": 200,
 					"description": "Success status"
 				},
@@ -1342,7 +1342,7 @@
 					"description": "Class room ID provided by client and this ID has to map in BMS."
 				},
 				"delay_sec": {
-					"type": "int",
+					"type": "integer",
 					"example": 10,
 					"description": "Delay / waiting period between each attendance cold call in attendance taking workflow."
 				},
@@ -1374,7 +1374,7 @@
 			"type": "object",
 			"properties": {
 				"status": {
-					"type": "int",
+					"type": "integer",
 					"example": 200,
 					"description": "Success status."
 				},
@@ -1417,7 +1417,7 @@
 			"type": "object",
 			"properties": {
 				"status": {
-					"type": "int",
+					"type": "integer",
 					"example": 200,
 					"description": "Success status."
 				},
@@ -1460,7 +1460,7 @@
 			"type": "object",
 			"properties": {
 				"status": {
-					"type": "int",
+					"type": "integer",
 					"example": 200,
 					"description": "Success status."
 				},
