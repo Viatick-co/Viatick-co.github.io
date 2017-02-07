@@ -4,6 +4,19 @@
 		"version": "2017-02-04T05:21:19Z",
 		"title": "AttendanceAPI"
 	},
+	"tags": [{
+		"name": "Learner Apis",
+		"description": "Apis involved in learner activities."
+	},{
+		"name": "Trainer Apis",
+		"description": "Apis involved in trainer activities."
+	},{
+		"name": "DB Logs Apis",
+		"description": "Apis to retrieve logs from DB."
+	},{
+		"name": "Options",
+		"description": "Preflight handler."
+	}],
 	"host": "bk22lc2fh1.execute-api.us-west-2.amazonaws.com",
 	"basePath": "/pro",
 	"schemes": [
@@ -12,6 +25,7 @@
 	"paths": {
 		"/attendance/sns/exchange": {
 			"post": {
+				"tags": ["Learner Apis"],
 				"consumes": [
 					"application/json"
 				],
@@ -75,6 +89,7 @@
 				}
 			},
 			"options": {
+				"tags": ["Options"],
 				"consumes": [
 					"application/json"
 				],
@@ -121,6 +136,7 @@
 		},
 		"/attendance/sns/push": {
 			"post": {
+				"tags": ["Trainer Apis"],
 				"consumes": [
 					"application/json"
 				],
@@ -175,6 +191,7 @@
 				}
 			},
 			"options": {
+				"tags": ["Options"],
 				"consumes": [
 					"application/json"
 				],
@@ -221,6 +238,7 @@
 		},
 		"/attendance/start": {
 			"post": {
+				"tags": ["Trainer Apis"],
 				"consumes": [
 					"application/json"
 				],
@@ -290,6 +308,7 @@
 				}
 			},
 			"options": {
+				"tags": ["Options"],
 				"consumes": [
 					"application/json"
 				],
@@ -336,6 +355,7 @@
 		},
 		"/attendance/stop": {
 			"post": {
+				"tags": ["Trainer Apis"],
 				"consumes": [
 					"application/json"
 				],
@@ -405,6 +425,7 @@
 				}
 			},
 			"options": {
+				"tags": ["Options"],
 				"consumes": [
 					"application/json"
 				],
@@ -451,6 +472,7 @@
 		},
 		"/attendance/take": {
 			"post": {
+				"tags": ["Learner Apis"],
 				"consumes": [
 					"application/json"
 				],
@@ -511,6 +533,7 @@
 				}
 			},
 			"options": {
+				"tags": ["Options"],
 				"consumes": [
 					"application/json"
 				],
