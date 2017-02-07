@@ -1170,19 +1170,7 @@
 							"RESULTS": {
 								"type": "array",
 								"items": {
-									"type": "object",
-									"properties": {
-										"userId": {
-											"type": "string",
-											"example": "user_id_001",
-											"description": "User ID provided by client, the final attendance results are tie to corresponding userIds."
-										},
-										"attendance": {
-											"type": "double",
-											"example": 0.96,
-											"description": "Attendance results of the user for the workflow."
-										}
-									}
+									"$ref": "#/definitions/ResultObject"
 								},
 								"description": "List of attendance result for all users."
 							},
@@ -1194,6 +1182,21 @@
 						}
 					},
 					"description": "Array of retrieved record data from Dynamo DB."
+				}
+			}
+		},
+		"ResultObject": {
+			"type": "object",
+			"properties": {
+				"userId": {
+					"type": "string",
+					"example": "user_id_001",
+					"description": "User ID provided by client, the final attendance results are tie to corresponding userIds."
+				},
+				"attendance": {
+					"type": "double",
+					"example": 0.96,
+					"description": "Attendance results of the user for the workflow."
 				}
 			}
 		},
