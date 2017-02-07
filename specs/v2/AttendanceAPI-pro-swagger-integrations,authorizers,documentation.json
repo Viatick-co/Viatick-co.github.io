@@ -1194,7 +1194,7 @@
 					"description": "User ID provided by client, the final attendance results are tie to corresponding userIds."
 				},
 				"attendance": {
-					"type": "double",
+					"type": "number",
 					"example": 0.96,
 					"description": "Attendance results of the user for the workflow."
 				}
