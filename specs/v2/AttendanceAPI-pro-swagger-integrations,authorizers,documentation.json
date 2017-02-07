@@ -1319,16 +1319,19 @@
 					"description": "Array of endpoint arns for aws sns push."
 				},
 				"data": {
-					"type": "object",
-					"properties": {
-						"key": {
-							"type": "string",
-							"example": "value"
-						}
-					},
-					"description": "Key value pair of hidden data wants to send to mobile device via push notification."
+					"$ref": "#/definitions/HiddenData"
 				}
 			}
+		},
+		"HiddenData": {
+			"type": "object",
+			"properties": {
+				"key": {
+					"type": "string",
+					"example": "value"
+				}
+			},
+			"description": "Key value pair of hidden data wants to send to mobile device via push notification."
 		},
 		"PushOut": {
 			"type": "object",
@@ -1397,24 +1400,27 @@
 					"description": "Success status."
 				},
 				"data": {
-					"type": "object",
-					"properties": {
-						"executionArn": {
-							"type": "string",
-							"example": "arn:aws:states:us-west-2:788170495069:execution:Attendance_Taking:36fd69b7-c66e-43a8-ad28-e40c1c271025",
-							"description": "Step Functions execution arn from aws."
-						},
-						"startDate": {
-							"type": "string",
-							"example": "2017-02-04T07:45:26.893Z",
-							"description": "Start date of the workflow."
-						},
-						"taskId": {
-							"type": "string",
-							"example": "task_id_1486194326764",
-							"description": "Unique task identifier use to stop the workflow."
-						}
-					}
+					"$ref": "#/definitions/AttendanceStartOutData"
+				}
+			}
+		},
+		"AttendanceStartOutData": {
+			"type": "object",
+			"properties": {
+				"executionArn": {
+					"type": "string",
+					"example": "arn:aws:states:us-west-2:788170495069:execution:Attendance_Taking:36fd69b7-c66e-43a8-ad28-e40c1c271025",
+					"description": "Step Functions execution arn from aws."
+				},
+				"startDate": {
+					"type": "string",
+					"example": "2017-02-04T07:45:26.893Z",
+					"description": "Start date of the workflow."
+				},
+				"taskId": {
+					"type": "string",
+					"example": "task_id_1486194326764",
+					"description": "Unique task identifier use to stop the workflow."
 				}
 			}
 		},
@@ -1440,24 +1446,30 @@
 					"description": "Success status."
 				},
 				"data": {
-					"type": "object",
-					"properties": {
-						"Attributes": {
-							"type": "object",
-							"properties": {
-								"END_DATE": {
-									"type": "string",
-									"example": "2017-02-04T08:01:40.344Z",
-									"description": "End date of the workflow."
-								},
-								"STATUS_T": {
-									"type": "string",
-									"example": "stopping",
-									"description": "Status of workflow."
-								}
-							}
-						}
-					}
+					"$ref": "#/definitions/AttendanceStopOutData"
+				}
+			}
+		},
+		"AttendanceStopOutData": {
+			"type": "object",
+			"properties": {
+				"Attributes": {
+					"$ref": "#/definitions/AttendanceStopOutAttributeData"
+				}
+			}
+		},
+		"AttendanceStopOutAttributeData": {
+			"type": "object",
+			"properties": {
+				"END_DATE": {
+					"type": "string",
+					"example": "2017-02-04T08:01:40.344Z",
+					"description": "End date of the workflow."
+				},
+				"STATUS_T": {
+					"type": "string",
+					"example": "stopping",
+					"description": "Status of workflow."
 				}
 			}
 		},
@@ -1483,19 +1495,25 @@
 					"description": "Success status."
 				},
 				"data": {
-					"type": "object",
-					"properties": {
-						"Attributes": {
-							"type": "object",
-							"properties": {
-								"ATTEND": {
-									"type": "boolean",
-									"example": true,
-									"description": "Record status. E.g. 'true' means attended, default value is 'false'."
-								}
-							}
-						}
-					}
+					"$ref": "#/definitions/TakeAttendanceOutData"
+				}
+			}
+		},
+		"TakeAttendanceOutData": {
+			"type": "object",
+			"properties": {
+				"Attributes": {
+					"$ref": "#/definitions/TakeAttendanceOutAttributeData"
+				}
+			}
+		},
+		"TakeAttendanceOutAttributeData": {
+			"type": "object",
+			"properties": {
+				"ATTEND": {
+					"type": "boolean",
+					"example": true,
+					"description": "Record status. E.g. 'true' means attended, default value is 'false'."
 				}
 			}
 		},
