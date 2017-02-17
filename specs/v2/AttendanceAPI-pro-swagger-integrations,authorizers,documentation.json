@@ -12,7 +12,7 @@
 		"description": "Apis involved in trainer activities."
 	},{
 		"name": "Vendor Apis",
-		"description": "Supporting Apis"
+		"description": "Supporting Apis."
 	}],
 	"host": "96379r3v0l.execute-api.us-west-2.amazonaws.com",
 	"basePath": "/pro",
