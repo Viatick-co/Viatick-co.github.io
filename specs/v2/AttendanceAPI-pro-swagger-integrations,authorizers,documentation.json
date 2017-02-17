@@ -358,6 +358,63 @@
 			}
 		},
 		"/learner/attendance": {
+			"get": {
+				"tags": ["Learner Apis"],
+				"description": "Get user overall attendance percentage result.",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [{
+					"name": "userId",
+					"in": "query",
+					"required": false,
+					"type": "string",
+					"description": "User ID provided by client."
+				}],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/AttendancePercentageOut"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							}
+						}
+					},
+					"500": {
+						"description": "500 response"
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200",
+							"responseParameters": {
+								"method.response.header.Access-Control-Allow-Origin": "'*'"
+							}
+						},
+						".*system.*": {
+							"statusCode": "500",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						}
+					},
+					"requestTemplates": {
+						"application/json": "{\n    \"userId\": \"$input.params('userId')\"\n}"
+					},
+					"uri": "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:788170495069:function:AttendancePercentage/invocations",
+					"passthroughBehavior": "when_no_templates",
+					"httpMethod": "POST",
+					"contentHandling": "CONVERT_TO_TEXT",
+					"type": "aws"
+				}
+			},
 			"put": {
 				"tags": ["Learner Apis"],
 				"description": "Mobile device report attendance status back to attendance records.",
@@ -835,6 +892,16 @@
 					"type": "boolean",
 					"example": true,
 					"description": "Record status. E.g. 'true' means attended, default value is 'false'."
+				}
+			}
+		},
+		"AttendancePercentageOut": {
+			"type": "object",
+			"properties": {
+				"attendancePercentage": {
+					"type": "number",
+					"example": 0.87,
+					"description": "Overall attendance percentage (range from 0 - 1)."
 				}
 			}
 		},
