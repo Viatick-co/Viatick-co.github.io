@@ -178,7 +178,7 @@
 					"200": {
 						"description": "200 response",
 						"schema": {
-							"$ref": "#/definitions/PushOut"
+							"$ref": "#/definitions/Empty"
 						},
 						"headers": {
 							"Access-Control-Allow-Origin": {
