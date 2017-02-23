@@ -357,6 +357,69 @@
 				}
 			}
 		},
+		"/learner": {
+			"get": {
+				"tags": ["Learner Apis"],
+				"description": "Get user session attendance status.",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [{
+					"name": "userId",
+					"in": "query",
+					"required": false,
+					"type": "string"
+				}, {
+					"name": "classSessionId",
+					"in": "query",
+					"required": false,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "200 response",
+						"schema": {
+							"$ref": "#/definitions/IsPresentOut"
+						},
+						"headers": {
+							"Access-Control-Allow-Origin": {
+								"type": "string"
+							}
+						}
+					},
+					"500": {
+						"description": "500 response"
+					}
+				},
+				"x-amazon-apigateway-integration": {
+					"responses": {
+						"default": {
+							"statusCode": "200",
+							"responseParameters": {
+								"method.response.header.Access-Control-Allow-Origin": "'*'"
+							}
+						},
+						".*system.*": {
+							"statusCode": "500",
+							"responseTemplates": {
+								"application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"message\" : \"$inputRoot.errorMessage\"\n}"
+							}
+						}
+					},
+					"uri": "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:788170495069:function:IsPresent/invocations",
+					"passthroughBehavior": "when_no_templates",
+					"requestTemplates": {
+						"application/json": "{\n    \"classSessionId\": \"$input.params('classSessionId')\",\n    \"userId\": \"$input.params('userId')\"\n}"
+					},
+					"httpMethod": "POST",
+					"contentHandling": "CONVERT_TO_TEXT",
+					"type": "aws"
+				}
+			}
+		},
 		"/learner/attendance": {
 			"get": {
 				"tags": ["Vendor Apis"],
@@ -739,6 +802,16 @@
 					"type": "boolean",
 					"example": true,
 					"description": "Record status. E.g. 'true' means attended, default value is 'false'."
+				}
+			}
+		},
+		"IsPresentOut": {
+			"type": "object",
+			"properties": {
+				"isPresent": {
+					"type": "boolean",
+					"example": true,
+					"description": "Current attendance status. E.g. 'true' means present, 'false' means absent."
 				}
 			}
 		},
