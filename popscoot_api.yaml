@@ -27,13 +27,13 @@ tags:
 - name: Booking
   description: booking related functions
 - name: Payment
-  description: payment and bank account setup related apis
+  description: payment and bank account setup related functions
 - name: Extra
-  description: image upload, sharelog, retrieve helps and file enquiry
+  description: image upload, sharelog, retrieve helps, file enquiry and initialization functions
 - name: Promotion
-  description: retrieve promotion and apply promotion
-- name: map resource
-  description: retrieve information of all stations
+  description: retrieve promotion and apply promotion functions
+- name: Map Resource
+  description: retrieve information of all stations function
 paths:
   /account:
     put:
@@ -1380,11 +1380,11 @@ paths:
       tags:
         - map resource
       description: retrieve information of all stations and locks of stations
-      summery: retrieve map and locks information
+      summary: retrieve map and locks information
       operationId: get map resources
       produces:
         - application/json
-      response:
+      responses:
         200:
           description: successful operation
           schema:
