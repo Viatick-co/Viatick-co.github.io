@@ -1,0 +1,491 @@
+---
+swagger: "2.0"
+info:
+  version: "v1"
+  title: "Apps.Mobile.API"
+host: "x086mgc2qk.execute-api.ap-southeast-2.amazonaws.com"
+basePath: "/v1"
+schemes:
+- "https"
+paths:
+  /classes/{classId}:
+    get:
+      operationId: "ClassesClassIdGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "classId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Class"
+      security:
+      - api_key: []
+  /classes/{classId}/learners:
+    get:
+      operationId: "ClassesClassIdLearnersGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "classId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ArrayOfPerson"
+      security:
+      - api_key: []
+  /learners/{learnerId}/classes:
+    get:
+      operationId: "LearnersLearnerIdClassesGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "endOfDateTimeRangeFilter"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "startOfDateTimeRangeFilter"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "learnerId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ArrayOfClass"
+      security:
+      - api_key: []
+  /learners/{learnerId}/home:
+    get:
+      operationId: "LearnersLearnerIdHomeGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "learnerId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Home"
+      security:
+      - api_key: []
+  /learners/{learnerId}/messages:
+    get:
+      operationId: "LearnersLearnerIdMessagesGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "learnerId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ArrayOfMessage"
+      security:
+      - api_key: []
+  /learners/{learnerId}/mobileNotificationArn:
+    put:
+      operationId: "LearnersLearnerIdMobileNotificationArnPut"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "learnerId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "MobileNotificationArn"
+        required: true
+        schema:
+          $ref: "#/definitions/MobileNotificationArn"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ArrayOfComment"
+        501:
+          description: "501 response"
+      security:
+      - api_key: []
+  /learners/{learnerId}/results:
+    get:
+      operationId: "LearnersLearnerIdResultsGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "learnerId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ArrayOfAssignmentResult"
+      security:
+      - api_key: []
+  /messages/{messageId}/comments:
+    get:
+      operationId: "LearnersLearnerIdMessagesMessagesIdCommentsGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "messageId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ArrayOfComment"
+        501:
+          description: "501 response"
+      security:
+      - api_key: []
+  /tenants/{tenantCode}:
+    get:
+      operationId: "TenantTenantCodeGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Tenant"
+      security:
+      - api_key: []
+  /tenants/{tenantCode}/authorise:
+    get:
+      operationId: "TenantTenantCodeAuthoriseGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "password"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "username"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "tenantCode"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Person"
+        401:
+          description: "401 response"
+      security:
+      - api_key: []
+  /trainers/{trainerId}/classes:
+    get:
+      operationId: "TrainersTrainerIdClassesGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tenantCode"
+        in: "query"
+        required: true
+        type: "string"
+      - name: "x-Api-Key"
+        in: "header"
+        required: true
+        type: "string"
+      - name: "trainerId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ArrayOfClass"
+      security:
+      - api_key: []
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "x-api-key"
+    in: "header"
+definitions:
+  ArrayOfPerson:
+    type: "array"
+    items:
+      $ref: "#/definitions/Person"
+  Comment:
+    type: "object"
+    properties:
+      From:
+        description: "Gets or Sets From"
+        $ref: "#/definitions/Person"
+      Time:
+        type: "string"
+        format: "date-time"
+        description: "Gets or Sets Time"
+      Text:
+        type: "string"
+        description: "Gets or Sets Comment"
+    description: ""
+  Message:
+    type: "object"
+    properties:
+      From:
+        description: "Gets or Sets From"
+        $ref: "#/definitions/Person"
+      Subject:
+        type: "string"
+        description: "Gets or Sets Subject"
+      Time:
+        type: "string"
+        format: "date-time"
+        description: "Gets or Sets Time"
+    description: ""
+  Venue:
+    type: "object"
+    properties:
+      VenueID:
+        type: "integer"
+        format: "int32"
+      Room:
+        type: "string"
+        description: "Gets or Sets Room"
+      Address:
+        type: "string"
+        description: "Gets or Sets Address"
+      Contact:
+        type: "string"
+        description: "Gets or Sets Contact"
+    description: ""
+  ArrayOfClass:
+    type: "array"
+    items:
+      $ref: "#/definitions/Class"
+  ArrayOfAssignmentResult:
+    type: "array"
+    items:
+      $ref: "#/definitions/AssignmentResult"
+  AssignmentResult:
+    type: "object"
+    properties:
+      Name:
+        type: "string"
+        description: "Gets or Sets Name"
+      Value:
+        type: "integer"
+        format: "int32"
+        description: "Gets or Sets Value"
+    description: ""
+  ArrayOfMessage:
+    type: "array"
+    items:
+      $ref: "#/definitions/Message"
+  Tenant:
+    type: "object"
+    properties:
+      Name:
+        type: "string"
+        description: "Gets or Sets Name"
+      PhotoUrl:
+        type: "string"
+        description: "Gets or Sets PhotoUrl"
+    description: ""
+  AttendanceInformation:
+    type: "object"
+    properties:
+      Attendance:
+        type: "integer"
+        format: "int32"
+        description: "Gets or Sets Attendance"
+      PartialAttendance:
+        type: "integer"
+        format: "int32"
+        description: "Gets or Sets PartialAttendance"
+      AuthorisedAbsence:
+        type: "integer"
+        format: "int32"
+        description: "Gets or Sets AuthorisedAbsence"
+      UnauthorisedAbsence:
+        type: "integer"
+        format: "int32"
+        description: "Gets or Sets UnauthorisedAbsence"
+    description: ""
+  ArrayOfComment:
+    type: "array"
+    items:
+      $ref: "#/definitions/Comment"
+  Class:
+    type: "object"
+    properties:
+      ClassId:
+        type: "integer"
+        format: "int32"
+        description: "Gets or Sets ClassId"
+      ClassStartDateTime:
+        type: "string"
+        format: "date-time"
+        description: "Gets or Sets ClassStartDateTime"
+      ClassEndDateTime:
+        type: "string"
+        format: "date-time"
+        description: "Gets or Sets ClassEndDateTime"
+      ClassCode:
+        type: "string"
+        description: "Gets or Sets ClassCode"
+      SubjectName:
+        type: "string"
+        description: "Gets or Sets SubjectName"
+      Venue:
+        description: "Gets or Sets Venue"
+        $ref: "#/definitions/Venue"
+      Trainer:
+        description: "Gets or Sets Trainer"
+        $ref: "#/definitions/Person"
+    description: ""
+  MobileNotificationArn:
+    type: "string"
+  Home:
+    type: "object"
+    properties:
+      NextClass:
+        description: "Gets or Sets NextClass"
+        $ref: "#/definitions/Class"
+      RecentResult:
+        description: "Gets or Sets RecentResult"
+        $ref: "#/definitions/AssignmentResult"
+      AttendanceInformation:
+        type: "array"
+        description: "Gets or Sets AttendanceInformation"
+        items:
+          $ref: "#/definitions/AttendanceInformation"
+    description: ""
+  Person:
+    type: "object"
+    properties:
+      PersonId:
+        type: "integer"
+        format: "int64"
+        description: "Gets or Sets PersonId"
+      FirstName:
+        type: "string"
+        description: "Gets or Sets FirstName"
+      LastName:
+        type: "string"
+        description: "Gets or Sets LastName"
+      Address:
+        type: "string"
+        description: "Gets or Sets Address"
+      Email:
+        type: "string"
+        description: "Gets or Sets Email"
+      Phone:
+        type: "string"
+        description: "Gets or Sets Phone"
+      PhotoUrl:
+        type: "string"
+        description: "Gets or Sets PhotoUrl"
+      MobileNotificationArn:
+        type: "string"
+        description: "Gets or Sets MobileNotificationArn"
+    description: ""
