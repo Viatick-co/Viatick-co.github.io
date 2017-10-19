@@ -1,0 +1,623 @@
+openapi: 3.0.0
+info:
+  title: Beacon Minisite API
+  description: Move your beacon app forward with the BMS API
+  version: "1.0.2-oas3"
+servers: 
+- url: https://bms.viatick.com/beacon/api/v4
+tags:
+  - name: site
+    description: Everything about minisite attached to a beacon.
+  - name: beacon
+    description: Everything about beacon
+  - name: tracking
+    description: Everthing about beacon record.
+paths:
+  /sites:
+    post:
+      tags:
+        - site
+      summary: Beacon Site
+      description: Retrieve minisite information based on unique group key.
+      parameters:
+      - name: X-Secret
+        description: Unique group secret
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Details of minisite in this group will be successfully displayed.
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MinisiteInfo'
+        '400':
+          description: Minisite could be not found / Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Request to access minisite is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Exception error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeaconRequest'
+  /beacons/{beaconId}:
+    get:
+      summary: Get Beacon
+      tags:
+      - beacon
+      description: Return beacon details based on the beacon ID.
+      responses:
+        '200':
+          description: Successfuly retrieve becon details based on the beacon ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeaconDetails'
+        '400':
+          description: Can not find the beacon. / Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Request to retrieve specific beacon is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Exception error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'  
+      parameters:
+      - name: X-Secret
+        description: Unique group secret
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /beacons:
+    get:
+      summary: Get Beacons
+      tags:
+      - beacon
+      description: Return all beacons belong to the particular group.
+      responses:
+        '200':
+          description: Successfully retrieve details of all beacons in this group.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BeaconAll'
+        '400':
+          description: Can not find the group. / Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Request to retrieve beacons is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Exception error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'  
+      parameters:
+      - name: X-Secret
+        description: Unique group secret
+        in: header
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      summary: Search Beacons
+      tags:
+      - beacon
+      description: search all beacons associated with specific skyAccountId
+      parameters:
+        - name: X-Secret
+          description: Unique group secret
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkyAccount'
+      responses:
+        '200' : 
+          description:
+            Return details of all beacons associated with skyAccountId.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BeaconDetails'
+        "400":
+          description: Can not find the group. / Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Request to search beacons is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Exception error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'  
+  /trackings:
+    get:
+      summary: Get (Period) Trackings
+      tags:
+      - tracking
+      description: retrieve all beacon records within a group
+      parameters:
+        - name: X-Secret
+          in: header
+          required: true
+          description: Unique group secret
+          schema:
+            type: string
+            format: uuid
+        - name: start
+          in: query
+          required: false
+          description: Start date and time of the period
+          schema:
+            type: string
+            format: date-time
+        - name: end
+          in: query
+          required: false
+          description: End date and time of the period
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Successfully retrieve all beacon detection recrods in the group.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/TrackingRecords'
+        '400':
+          description: Can not find the group. / Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Request to get (period) trackings of beacon is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Exception error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'  
+    post:
+      summary: Create Trackings
+      tags:
+      - tracking
+      description: create all detection records
+      parameters:
+        - name: X-Secret
+          description: Unique group secret
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Records created to be posted
+        required: false
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordsCreated'
+      responses:
+        "200":
+          description: Successful created beacon records.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: (the number of) records added...
+        "400":
+          description: Bad request to create trackings.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Request to create trackings is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Exception error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'  
+    delete:
+      summary: Delete (Period) Trackings
+      tags:
+      - tracking
+      description: delete all beacon records or delete beacon records within certain period
+      parameters:
+        - name: X-Secret
+          description: Unique group secret
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: start
+          description: Start date and time of the tracking period 
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: end
+          description: End date and time of the tracking period 
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time  
+      responses:
+        "200":
+          description: Successfully delete all beacon records or beacon records within a period 
+          content:
+            application/json:
+              schema:
+                type: string
+                example: (the number of) records deleted...
+        "400":
+          description: Can not find the group. / Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Request to delete trackings of beacon is forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+        '500':
+          description: Exception error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'  
+components:
+  schemas:
+    BeaconRequest:
+      type: object
+      required:
+        - uuid
+        - major
+        - minor
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          example: string
+        major:
+          type: integer
+          format: int64
+        minor:
+          type: integer
+          format: int64
+    BeaconDetails:
+      type: object
+      properties:
+        minor:
+          type: integer
+          format: int64
+        distance:
+          type: integer
+          format: int64
+          example: 100
+        latitude:
+          type: integer
+          format: int64
+          example: 1.2801547547301761
+        beaconId:
+          type: integer
+          format: int32
+        optional:
+          type: object
+          $ref: '#/components/schemas/OptionalInBeaconDetails'
+        battery:
+          type: integer
+          format: int32
+          example: 100
+        type:
+          type: string
+          example: "iBeacon"
+        uuid:
+          type: integer
+          format: int64
+        stickNotification:
+          type: boolean
+        notification:
+          type: string
+          example: "here is notification message"
+        beaconGroup: 
+          type: object
+          $ref: '#/components/schemas/BeaconGroup'
+        major:
+          type: integer
+          format: int64
+        floor:
+          type: integer
+          format: int32
+          example: 4
+        status: 
+          type: integer
+          format: int32
+          example: 1
+        longtitude:
+          type: integer
+          format: int64
+          example: 103.84395360946655
+        createDate:
+          type: string
+          format: date-time
+    BeaconAll:
+      type: object
+      properties:
+        minor:
+          type: integer
+          format: int64
+        distance:
+          type: integer
+          format: int64
+          example: 100
+        latitude:
+          type: integer
+          format: int64
+          example: 1.2801547547301761
+        beaconId:
+          type: integer
+          format: int32
+        optional:
+          type: object
+          $ref: '#/components/schemas/OptionalInBeaconDetails'
+        battery:
+          type: integer
+          format: int32
+          example: 100
+        type:
+          type: string
+          example: "iBeacon"
+        uuid:
+          type: integer
+          format: int64
+        stickNotification:
+          type: boolean
+        notification:
+          type: string
+          example: "here is notification message"
+        major:
+          type: integer
+          format: int64
+        floor:
+          type: integer
+          format: int32
+          example: 4
+        status: 
+          type: integer
+          format: int32
+          example: 1
+        longtitude:
+          type: integer
+          format: int64
+          example: 103.84395360946655
+    OptionalInBeaconDetails:
+      type: object
+      properties:
+        key1:
+          type: string
+          example: ""
+        key2: 
+          type: string
+          example: ""
+        skyAccountId:
+          type: integer
+          format: int32
+          example: 14
+    OptionalRoomInBeaconDetails:
+      type: object
+      properties:
+        key1:
+          type: string
+          example: ""
+        key2: 
+          type: string
+          example: ""
+        skyRoomId:
+          type: integer
+          format: int32
+          example: 23
+    BeaconGroup:
+      type: object
+      properties:
+        groupname:
+          type: string
+          example: A group
+        groupId:
+          type: integer
+          format: int32
+        description:
+          type: string
+          example: what is this group for
+        secret:
+          type: string
+          format: uuid
+        status:
+          type: integer
+          format: int32
+          example: 1
+        creatDate:
+          type: string
+          format: date-time
+    MinisiteInfo:
+      type: object
+      properties:
+        beaconId:
+          type: integer
+          format: int32
+        text:
+          type: string
+          example: minisite text message
+        title:
+          type: string
+          example: minisite title
+        url:
+          type: string
+          example: here is the link to your minisite
+        miniSiteId:
+          type: integer
+          format: int32
+    SkyAccount:
+      type: object
+      properties:
+        skyAccountId:
+          type: integer
+          format: int32
+    TrackingRecords:
+      type: object
+      properties:
+        receiver_(receiverId):
+          type: object
+          $ref: '#/components/schemas/ReceiverRecords'
+    ReceiverRecords:
+      type: object
+      properties:
+        beaconId:
+          type: object
+          $ref: '#/components/schemas/BeaconRecords'
+        optional:
+          type: object
+          $ref: '#/components/schemas/OptionalRoomInBeaconDetails'
+    BeaconRecords:
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/BeaconRecord'
+        optional:
+          type: object
+          $ref: '#/components/schemas/OptionalInBeaconDetails'
+    BeaconRecord:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        data: 
+          type: string
+          example: 
+        distance:
+          type: integer
+          format: int64
+          example: 0.005523439069463426
+        remark:
+          type: string
+          example:
+        bleTrackingId:
+          type: integer
+          format: int32
+    RecordsCreated:
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleBeaconRecordCreated'
+    SingleBeaconRecordCreated:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        major:
+          type: integer
+          format: int64
+        minor:  
+          type: integer
+          format: int64
+        distance:
+          type: integer
+          format: int64
+          example: 1.00324
+        data:
+          type: object
+          $ref: '#/components/schemas/SkyAccount'
+        remark:
+          type: string
+          example: remarks for tracking creation
+    BadRequestResponse:
+      description: Input of this method is not correct. 
+      type: string
+      example: "This beacon/ beacon group/ device group does not exist"
+    ForbiddenResponse:
+      description: Group secret is not correct or missing which leads to this forbidden request.
+      type: string
+      example: "This device group does not exist..."
+    ExceptionResponse:
+      description: Input is not correct which leads to exception error.
+      type: string
+      example: "null"
