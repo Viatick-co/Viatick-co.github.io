@@ -1,4 +1,5 @@
 openapi: 3.0.0
+host: "https://bms.viatick.com/bms/api/v1"
 info:
   title: BLE Management API
   description: This is the API documentation for the API endpoints of the BLE Management System.
