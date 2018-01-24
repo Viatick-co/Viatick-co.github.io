@@ -1,0 +1,2206 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "BLE Management API",
+    "description" : "This is the API documentation for the API endpoints of the BLE Management System.",
+    "version" : "1.0.0",
+    "contact" : {
+      "name" : "contact name",
+      "email" : "email@sample.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers" : [ {
+    "url" : "https://bms.viatick.com/bms/api/v1",
+    "description" : "BLE Management API - Development server"
+  } ],
+  "tags" : [ {
+    "name" : "App",
+    "description" : "About Application"
+  }, {
+    "name" : "Site",
+    "description" : "About Minisite"
+  }, {
+    "name" : "Attendance",
+    "description" : "About Attendance"
+  }, {
+    "name" : "Tracking",
+    "description" : "About Tracking"
+  } ],
+  "paths" : {
+    "/app/info" : {
+      "get" : {
+        "summary" : "Info",
+        "tags" : [ "App" ],
+        "description" : "get detailed application information",
+        "parameters" : [ {
+          "name" : "Api-Key",
+          "description" : "Application identifier",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApplicationInfo"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestApp"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/site/{uuid}/{major}/{minor}" : {
+      "get" : {
+        "summary" : "Get Site Via iBeacon",
+        "tags" : [ "Site" ],
+        "description" : "Get Minisite Link Via iBeacon",
+        "parameters" : [ {
+          "name" : "Api-Key",
+          "description" : "Application identifier",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "uuid",
+          "description" : "iBeacon identifier along with major and minor",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "path",
+          "name" : "major",
+          "description" : "iBeacon identifier along with uuid and minor, ranging between 0 and 6553",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "in" : "path",
+          "name" : "minor",
+          "description" : "iBeacon identifier along with uuid and major, ranging between 0 and 6553",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SiteViaIBeacon"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestSite"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ForbiddenBeacon"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/site/{namespace}/{instance}" : {
+      "get" : {
+        "summary" : "Get Site Via Eddystone",
+        "tags" : [ "Site" ],
+        "description" : "Get Minisite Link Via Eddystone",
+        "parameters" : [ {
+          "name" : "Api-Key",
+          "description" : "The key of API",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "namespace",
+          "in" : "path",
+          "description" : "Identify your company",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "instance",
+          "in" : "path",
+          "description" : "Identify the eddystone within your company",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SiteViaIBeacon"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BadRequestApp"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ForbiddenBeacon"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/attendance" : {
+      "post" : {
+        "summary" : "Check in iBeacon / Eddystone",
+        "tags" : [ "Attendance" ],
+        "description" : "Check in iBeacon / Eddystone to take attendance",
+        "parameters" : [ {
+          "name" : "Api-Key",
+          "description" : "The key of API",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "oneOf" : [ {
+                  "$ref" : "#/components/schemas/CheckInIBeaconRequest"
+                }, {
+                  "$ref" : "#/components/schemas/CheckInEddystoneRequest"
+                } ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CheckInBeaconResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/BeaconNotExistBR"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/Exception"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Check Out iBeacon / Eddystone",
+        "tags" : [ "Attendance" ],
+        "description" : "Check out iBeacon",
+        "parameters" : [ {
+          "name" : "Api-Key",
+          "description" : "The key of API",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "oneOf" : [ {
+                  "$ref" : "#/components/schemas/CheckOutIBeaconRequest"
+                }, {
+                  "$ref" : "#/components/schemas/CheckOutEddystoneRequest"
+                } ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CheckOutBeaconResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/BeaconNotExistBR"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/Exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/attendance/{StartAttendanceTimestamp}/{EndAttendanceTimestamp}" : {
+      "get" : {
+        "summary" : "Search Attendance",
+        "tags" : [ "Attendance" ],
+        "description" : "Search attendance details in a period",
+        "parameters" : [ {
+          "name" : "Api-Key",
+          "in" : "header",
+          "required" : true,
+          "description" : "The key of API",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "StartAttendanceTimestamp",
+          "in" : "path",
+          "required" : true,
+          "description" : "Start timestamp of attendance",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "EndAttendanceTimestamp",
+          "in" : "path",
+          "required" : true,
+          "description" : "End timestamp of attendance",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/SearchAttendance"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/BadRequestApp"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/Exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/tracking" : {
+      "post" : {
+        "summary" : "Record Tracking (Active)",
+        "tags" : [ "Tracking" ],
+        "description" : "record active tracking",
+        "parameters" : [ {
+          "name" : "Api-Key",
+          "description" : "Application identifier",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CheckInIBeaconRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RecordTrackingResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/BeaconNotExistBR"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/Exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gate" : {
+      "post" : {
+        "summary" : "Tracking Gate (Passive) - Bluetooth Hub / Reader",
+        "tags" : [ "Tracking" ],
+        "description" : "detect passive tracking",
+        "parameters" : [ {
+          "name" : "Api-Key",
+          "description" : "Application identifier",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "oneOf" : [ {
+                  "$ref" : "#/components/schemas/PassiveTrackingBluetoothHub"
+                }, {
+                  "$ref" : "#/components/schemas/PassiveTrackingReader"
+                } ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "example" : "success"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BeaconNotExistBR"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/tracking/{StartTrackingTimestamp}/{EndTrackingTimestamp}" : {
+      "get" : {
+        "summary" : "Search Tracking",
+        "tags" : [ "Tracking" ],
+        "description" : "search tracking records within a period",
+        "parameters" : [ {
+          "name" : "Api-Key",
+          "description" : "Application identifier",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "StartTrackingTimestamp",
+          "in" : "path",
+          "required" : true,
+          "description" : "Start timestamp of tracking",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "EndTrackingTimestamp",
+          "in" : "path",
+          "required" : true,
+          "description" : "End timestamp of tracking",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/SearchTracking"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/BeaconNotExistBR"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "$ref" : "#/components/schemas/Exception"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "BadRequestApp" : {
+        "type" : "string",
+        "example" : "invalid api key..."
+      },
+      "Forbidden" : {
+        "description" : "forbidden request",
+        "type" : "string",
+        "example" : "Forbidden"
+      },
+      "Exception" : {
+        "description" : "Exception",
+        "type" : "string",
+        "example" : "Exception"
+      },
+      "BadRequestSite" : {
+        "type" : "string",
+        "description" : "invalid input / minisite was not scheduled with this beacon",
+        "example" : "invalid api key... / iBeacon not exist... / no scheduled minisite"
+      },
+      "ForbiddenBeacon" : {
+        "type" : "string",
+        "description" : "accessing resources out of access right",
+        "example" : "beacon not public"
+      },
+      "BeaconNotExistBR" : {
+        "type" : "string",
+        "description" : "invalid input / key",
+        "example" : "beacon not exist... / invalid api key"
+      },
+      "ApplicationInfo" : {
+        "type" : "object",
+        "properties" : {
+          "api ver." : {
+            "type" : "string",
+            "example" : "1.0.1"
+          },
+          "fetchRate" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/FetchRate"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Attendance Tracking"
+          },
+          "count" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Count"
+          },
+          "range" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Range"
+          }
+        }
+      },
+      "Count" : {
+        "type" : "object",
+        "properties" : {
+          "site" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Site"
+          },
+          "device" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/DeviceCount"
+          }
+        }
+      },
+      "Range" : {
+        "type" : "object",
+        "properties" : {
+          "iBeacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/IBeacon"
+          },
+          "eddystone" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Eddystone"
+          }
+        }
+      },
+      "Site" : {
+        "type" : "object",
+        "properties" : {
+          "advertisements" : {
+            "type" : "integer",
+            "example" : 3
+          },
+          "coupons" : {
+            "type" : "integer",
+            "example" : 2
+          }
+        }
+      },
+      "DeviceCount" : {
+        "type" : "object",
+        "properties" : {
+          "eddystones" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "iBeacons" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "readers" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "bluetoothHubs" : {
+            "type" : "integer",
+            "example" : 1
+          }
+        }
+      },
+      "IBeacon" : {
+        "type" : "object",
+        "properties" : {
+          "major" : {
+            "type" : "integer",
+            "example" : 14
+          },
+          "minor" : {
+            "type" : "integer",
+            "example" : 14
+          },
+          "uuid" : {
+            "type" : "string",
+            "example" : "A1111A11-AAAA-11A1-A111-A1A1A11111A1"
+          }
+        }
+      },
+      "Eddystone" : {
+        "type" : "object",
+        "properties" : {
+          "instance" : {
+            "type" : "string",
+            "example" : "A1A1111AA111"
+          },
+          "namespace" : {
+            "type" : "string",
+            "example" : "AAAAA11111A111A11111"
+          }
+        }
+      },
+      "SiteViaIBeacon" : {
+        "type" : "object",
+        "properties" : {
+          "url" : {
+            "type" : "string",
+            "example" : "https://bms.viatick.com/hello/this/is/example"
+          }
+        }
+      },
+      "CheckInIBeaconRequest" : {
+        "type" : "object",
+        "properties" : {
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "A1111A11-AAAA-11A1-A111-A1A1A11111A1"
+          },
+          "major" : {
+            "type" : "integer",
+            "example" : 0
+          },
+          "minor" : {
+            "type" : "integer",
+            "example" : 0
+          },
+          "identifier" : {
+            "type" : "string",
+            "example" : "app_user_id_000",
+            "description" : "Customer identifier"
+          },
+          "phone" : {
+            "type" : "string",
+            "example" : "+65 9000 0000"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email",
+            "example" : "user1@sample.com"
+          },
+          "data" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Data"
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks for this"
+          }
+        }
+      },
+      "CheckInEddystoneRequest" : {
+        "type" : "object",
+        "properties" : {
+          "namespace" : {
+            "type" : "string",
+            "example" : "AAAAa11111A111A11111"
+          },
+          "instance" : {
+            "type" : "string",
+            "example" : "A1A1111AA111"
+          },
+          "identifier" : {
+            "description" : "Customer identifier",
+            "type" : "string",
+            "example" : "app_user_id_000"
+          },
+          "phone" : {
+            "type" : "string",
+            "example" : "+65 9000 0000"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email",
+            "example" : "user1@sample.com"
+          },
+          "data" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Data"
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks for this"
+          }
+        }
+      },
+      "CheckOutIBeaconRequest" : {
+        "type" : "object",
+        "properties" : {
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "A1111A11-AAAA-11A1-A111-A1A1A11111A1"
+          },
+          "major" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "minor" : {
+            "type" : "integer",
+            "example" : 32
+          },
+          "identifier" : {
+            "type" : "string",
+            "example" : "app_user_id_01",
+            "description" : "customer identifier"
+          },
+          "phone" : {
+            "type" : "string",
+            "example" : "+65 9999 9999"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email",
+            "example" : "sample@Address.com"
+          },
+          "data" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Data"
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks for iBeacon"
+          }
+        }
+      },
+      "CheckOutEddystoneRequest" : {
+        "type" : "object",
+        "properties" : {
+          "namespace" : {
+            "type" : "string",
+            "example" : "AAAAa11111A111A11111"
+          },
+          "instance" : {
+            "type" : "string",
+            "example" : "A1A1111AA111"
+          },
+          "identifier" : {
+            "type" : "string",
+            "example" : "app_user_id_01",
+            "description" : "customer identifier"
+          },
+          "phone" : {
+            "type" : "string",
+            "example" : "+65 9999 9999"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email",
+            "example" : "sample@Address.com"
+          },
+          "data" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Data"
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks for eddystone"
+          }
+        }
+      },
+      "CheckInBeaconResponse" : {
+        "type" : "object",
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/CheckInIBeaconResponse"
+        }, {
+          "$ref" : "#/components/schemas/CheckInEddystoneResponse"
+        } ]
+      },
+      "CheckOutBeaconResponse" : {
+        "type" : "object",
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/CheckOutIBeaconResponse"
+        }, {
+          "$ref" : "#/components/schemas/CheckOutEddystoneResponse"
+        } ]
+      },
+      "CheckInIBeaconResponse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "updatedDate" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "beacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/iBeaconAttendance"
+          },
+          "checkIn" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "application" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ApplicationAttendance"
+          },
+          "data" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Data"
+          },
+          "checkOut" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : null
+          },
+          "attendanceId" : {
+            "type" : "integer"
+          },
+          "customer" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/CustomerAttendance"
+          }
+        }
+      },
+      "CheckInEddystoneResponse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "updatedDate" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "beacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/EddystoneAttendance"
+          },
+          "checkIn" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "application" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ApplicationAttendance"
+          },
+          "data" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Data"
+          },
+          "checkOut" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : null
+          },
+          "attendanceId" : {
+            "type" : "integer",
+            "example" : 100
+          },
+          "customer" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/CustomerAttendance"
+          }
+        }
+      },
+      "CheckOutIBeaconResponse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "updatedDate" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "beacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/iBeaconAttendance"
+          },
+          "checkIn" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "application" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ApplicationAttendance"
+          },
+          "data" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Data"
+          },
+          "checkOut" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T07:05:19Z"
+          },
+          "attendanceId" : {
+            "type" : "integer"
+          },
+          "customer" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/CustomerAttendance"
+          }
+        }
+      },
+      "CheckOutEddystoneResponse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "updatedDate" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "beacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/EddystoneAttendance"
+          },
+          "checkIn" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "application" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ApplicationAttendance"
+          },
+          "data" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Data"
+          },
+          "checkOut" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-18T01:44:55Z"
+          },
+          "attendanceId" : {
+            "type" : "integer",
+            "example" : 100
+          },
+          "customer" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/CustomerAttendance"
+          }
+        }
+      },
+      "SearchAttendance" : {
+        "type" : "array",
+        "description" : "Each pair of check-in and check-out activity identified by iBeacon / Eddystone will count only once.",
+        "items" : {
+          "oneOf" : [ {
+            "$ref" : "#/components/schemas/CheckInIBeaconResponse"
+          }, {
+            "$ref" : "#/components/schemas/CheckInEddystoneResponse"
+          }, {
+            "$ref" : "#/components/schemas/CheckOutIBeaconResponse"
+          }, {
+            "$ref" : "#/components/schemas/CheckOutEddystoneResponse"
+          } ]
+        }
+      },
+      "CustomerAttendance" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-02T13:20:48Z"
+          },
+          "identifier" : {
+            "type" : "string",
+            "example" : "app_user_id_001"
+          },
+          "phone" : {
+            "type" : "string",
+            "example" : "+65 9999 9999"
+          },
+          "customerId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks for customer"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email",
+            "example" : "sample@Address.com"
+          }
+        }
+      },
+      "ApplicationAttendance" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-02T13:13:02Z"
+          },
+          "configuration" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ConfigurationApplication"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Application Name"
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remark for application"
+          },
+          "applicationId" : {
+            "type" : "integer",
+            "example" : 1
+          }
+        }
+      },
+      "ConfigurationApplication" : {
+        "type" : "object",
+        "properties" : {
+          "fetchRate" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/FetchRate"
+          }
+        }
+      },
+      "FetchRate" : {
+        "type" : "object",
+        "properties" : {
+          "tracking" : {
+            "type" : "integer",
+            "example" : "60000 (Recommended and Default Interval)"
+          },
+          "attendance" : {
+            "type" : "integer",
+            "example" : "300000 (Recommended and Default Interval)"
+          }
+        }
+      },
+      "iBeaconAttendance" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-02T13:13:42Z"
+          },
+          "distance" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "minor" : {
+            "type" : "integer",
+            "example" : 0
+          },
+          "latitude" : {
+            "type" : "number",
+            "example" : 10.000023
+          },
+          "active" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks for iBeacon"
+          },
+          "optional" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Optional"
+          },
+          "title" : {
+            "type" : "string",
+            "example" : "Welcome"
+          },
+          "battery" : {
+            "type" : "integer",
+            "example" : 100
+          },
+          "deviceId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "A1111A11-AAAA-11A1-A111-A1A1A11111A1"
+          },
+          "mac" : {
+            "type" : "string",
+            "example" : "11111a1aaa11111a"
+          },
+          "major" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "meeting room beacon"
+          },
+          "sticky" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "model" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/DeviceModel"
+          },
+          "text" : {
+            "type" : "string",
+            "example" : "to viatick office"
+          },
+          "region" : {
+            "type" : "string",
+            "example" : "China Suzhou"
+          },
+          "floor" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "longtitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 130.2353256
+          }
+        }
+      },
+      "EddystoneAttendance" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-02T13:13:42Z"
+          },
+          "instance" : {
+            "type" : "string",
+            "example" : "A1A1111AA111"
+          },
+          "distance" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "latitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 10.000023
+          },
+          "active" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks for iBeacon"
+          },
+          "optional" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Optional"
+          },
+          "title" : {
+            "type" : "string",
+            "example" : "Welcome"
+          },
+          "battery" : {
+            "type" : "integer",
+            "example" : 100
+          },
+          "deviceId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "mac" : {
+            "type" : "string",
+            "example" : "11111a1aaa11111a"
+          },
+          "maskUrl" : {
+            "type" : "string",
+            "example" : "http://viatick.com",
+            "description" : "Masking the domain"
+          },
+          "rotationPeriod" : {
+            "type" : "integer",
+            "example" : 1400
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "meeting room eddystone"
+          },
+          "sticky" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "namespace" : {
+            "type" : "string",
+            "example" : "AAAAa11111A111A11111"
+          },
+          "identityKey" : {
+            "type" : "string",
+            "example" : "not ready"
+          },
+          "timeCounterOffset" : {
+            "type" : "integer",
+            "example" : 45000
+          },
+          "model" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/DeviceModel"
+          },
+          "text" : {
+            "type" : "string",
+            "example" : "to viatick office"
+          },
+          "region" : {
+            "type" : "string",
+            "example" : "China Suzhou"
+          },
+          "floor" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "longtitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 130.2353256
+          }
+        }
+      },
+      "DeviceModel" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-02T13:09:10Z"
+          },
+          "image" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Image"
+          },
+          "distance" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "modelId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "beacon1 / eddystone2"
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks for iBeacon / eddystone"
+          },
+          "type" : {
+            "type" : "string",
+            "example" : "iBeacon / Eddystone"
+          }
+        }
+      },
+      "Image" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "example" : "2018-01-02T13:09:09Z"
+          },
+          "size" : {
+            "type" : "integer",
+            "example" : 153463
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "sampleimage_2"
+          },
+          "mediaId" : {
+            "type" : "integer",
+            "example" : 2
+          },
+          "type" : {
+            "type" : "string",
+            "example" : "image"
+          },
+          "url" : {
+            "type" : "string",
+            "example" : "cms.viatick.com/images/sampleimage_2.png"
+          }
+        }
+      },
+      "Optional" : {
+        "type" : "object",
+        "properties" : {
+          "sectionId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "roomId" : {
+            "type" : "integer",
+            "example" : 1
+          }
+        }
+      },
+      "Data" : {
+        "type" : "object",
+        "properties" : {
+          "application" : {
+            "type" : "string",
+            "example" : "Application"
+          }
+        }
+      },
+      "RecordTrackingResponse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "updatedDate" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "beacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/iBeaconAttendance"
+          },
+          "checkIn" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-17T01:44:55Z"
+          },
+          "application" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ApplicationAttendance"
+          },
+          "data" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Data"
+          },
+          "checkOut" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : null
+          },
+          "trackingId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "customer" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/CustomerAttendance"
+          }
+        }
+      },
+      "PassiveTrackingBluetoothHub" : {
+        "type" : "object",
+        "properties" : {
+          "route_mac" : {
+            "type" : "string",
+            "example" : "11111a1aaa111a11"
+          },
+          "devices" : {
+            "type" : "array",
+            "items" : {
+              "oneOf" : [ {
+                "$ref" : "#/components/schemas/iBeaconDevice"
+              }, {
+                "$ref" : "#/components/schemas/EddystoneDevice"
+              } ]
+            }
+          }
+        }
+      },
+      "PassiveTrackingReader" : {
+        "type" : "object",
+        "properties" : {
+          "route_mac" : {
+            "type" : "string",
+            "example" : "11111a1aaa111a11"
+          },
+          "devices" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BeaconDevice"
+            }
+          }
+        }
+      },
+      "SearchTracking" : {
+        "type" : "array",
+        "description" : "For more possible output, please see Model - SearchTracking below.",
+        "items" : {
+          "oneOf" : [ {
+            "$ref" : "#/components/schemas/RecordTrackingResponse"
+          }, {
+            "$ref" : "#/components/schemas/PassiveTrackingBluetoothHubIBeaconResponse"
+          }, {
+            "$ref" : "#/components/schemas/PassiveTrackingBluetoothHubEddystoneResponse"
+          }, {
+            "$ref" : "#/components/schemas/PassiveTrackingReaderIBeaconResponse"
+          }, {
+            "$ref" : "#/components/schemas/PassiveTrackingReaderEddystoneResponse"
+          } ]
+        }
+      },
+      "PassiveTrackingBluetoothHubIBeaconResponse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-24T06:25:56Z"
+          },
+          "beacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/iBeaconDetails"
+          },
+          "application" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ApplicationAttendance"
+          },
+          "data" : {
+            "type" : "object",
+            "example" : null,
+            "description" : "broadcasting data"
+          },
+          "gateway" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/GatewayHub"
+          },
+          "trackingId" : {
+            "type" : "number",
+            "example" : 1000
+          }
+        }
+      },
+      "PassiveTrackingBluetoothHubEddystoneResponse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-24T06:25:56Z"
+          },
+          "beacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/EddystoneDetails"
+          },
+          "application" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ApplicationAttendance"
+          },
+          "data" : {
+            "type" : "object",
+            "example" : null,
+            "description" : "broadcasting data"
+          },
+          "gateway" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/GatewayHub"
+          },
+          "trackingId" : {
+            "type" : "number",
+            "example" : 1000
+          }
+        }
+      },
+      "PassiveTrackingReaderIBeaconResponse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-24T06:25:56Z"
+          },
+          "beacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/iBeaconDetails"
+          },
+          "application" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ApplicationAttendance"
+          },
+          "data" : {
+            "type" : "object",
+            "example" : null,
+            "description" : "broadcasting data"
+          },
+          "gateway" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/GatewayReader"
+          },
+          "trackingId" : {
+            "type" : "number",
+            "example" : 1000
+          }
+        }
+      },
+      "PassiveTrackingReaderEddystoneResponse" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-24T06:25:56Z"
+          },
+          "beacon" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/EddystoneDevice"
+          },
+          "application" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/ApplicationAttendance"
+          },
+          "data" : {
+            "type" : "object",
+            "example" : null,
+            "description" : "broadcasting data"
+          },
+          "gateway" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/GatewayReader"
+          },
+          "trackingId" : {
+            "type" : "number",
+            "example" : 1000
+          }
+        }
+      },
+      "iBeaconDevice" : {
+        "type" : "object",
+        "properties" : {
+          "distance" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 10.342634
+          },
+          "uuid" : {
+            "type" : "string",
+            "example" : "A1111A11-AAAA-11A1-A111-A1A1A11111A1"
+          },
+          "major" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "minor" : {
+            "type" : "integer",
+            "example" : 10
+          }
+        }
+      },
+      "EddystoneDevice" : {
+        "type" : "object",
+        "properties" : {
+          "distance" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 10.241534
+          },
+          "namespace" : {
+            "type" : "string",
+            "example" : "AAAAa11111A111A11111"
+          },
+          "instance" : {
+            "type" : "string",
+            "example" : "A1A1111AA111"
+          }
+        }
+      },
+      "BeaconDevice" : {
+        "type" : "object",
+        "properties" : {
+          "rssi" : {
+            "type" : "integer",
+            "example" : -1,
+            "description" : "Received signal strength indicator"
+          },
+          "data" : {
+            "type" : "string",
+            "description" : "Broadcasting data"
+          },
+          "mac" : {
+            "type" : "string",
+            "example" : "11111a1aaa1a1a11"
+          }
+        }
+      },
+      "iBeaconDetails" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime"
+          },
+          "distance" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "minor" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "latitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 1.23424
+          },
+          "active" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "remark" : {
+            "type" : "string"
+          },
+          "optional" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Optional"
+          },
+          "title" : {
+            "type" : "string",
+            "example" : "Title"
+          },
+          "battery" : {
+            "type" : "integer",
+            "example" : 13
+          },
+          "deviceId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "A1111A11-AAAA-11A1-A111-A1A1A11111A1"
+          },
+          "mac" : {
+            "type" : "string",
+            "example" : "11111a1aaa11111a"
+          },
+          "major" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "name for iBeacon"
+          },
+          "sticky" : {
+            "type" : "boolean",
+            "example" : false
+          },
+          "model" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/DeviceModel"
+          },
+          "text" : {
+            "type" : "string",
+            "example" : "text"
+          },
+          "region" : {
+            "type" : "string",
+            "example" : "China, Suzhou"
+          },
+          "floor" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "open" : {
+            "type" : "boolean",
+            "example" : false
+          },
+          "longitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 123.23423
+          }
+        }
+      },
+      "EddystoneDetails" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime"
+          },
+          "instance" : {
+            "type" : "integer",
+            "example" : "A1A1111AA111"
+          },
+          "distance" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "latitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 1.23424
+          },
+          "title" : {
+            "type" : "string",
+            "example" : "Title"
+          },
+          "battery" : {
+            "type" : "integer",
+            "example" : 13
+          },
+          "deviceId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "mac" : {
+            "type" : "string",
+            "example" : "11111a1aaa11111a"
+          },
+          "identityKey" : {
+            "type" : "string",
+            "example" : "identity key"
+          },
+          "model" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/DeviceModel"
+          },
+          "text" : {
+            "type" : "string",
+            "example" : "text"
+          },
+          "floor" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "longitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 123.23423
+          },
+          "active" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "optional" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Optional"
+          },
+          "maskUrl" : {
+            "type" : "string",
+            "example" : "http://viatick.com"
+          },
+          "rotationPeriod" : {
+            "type" : "integer",
+            "example" : 11
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "name"
+          },
+          "sticky" : {
+            "type" : "boolean",
+            "example" : false
+          },
+          "namespace" : {
+            "type" : "string",
+            "example" : "AAAAa11111A111A11111"
+          },
+          "timeCounterOffset" : {
+            "type" : "integer",
+            "example" : 45000
+          },
+          "region" : {
+            "type" : "string",
+            "example" : "China, Suzhou"
+          },
+          "open" : {
+            "type" : "boolean",
+            "example" : false
+          }
+        }
+      },
+      "GatewayHub" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-02T13:14:12Z"
+          },
+          "cutoffs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Cutoff"
+            }
+          },
+          "headers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Header"
+            }
+          },
+          "distance" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "method" : {
+            "type" : "string",
+            "example" : "POST"
+          },
+          "forward" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "bluetoothEnable" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "latitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 1.5643
+          },
+          "active" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks"
+          },
+          "optional" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Optional"
+          },
+          "deviceId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "mac" : {
+            "type" : "string",
+            "example" : "11111a1aaa11111a"
+          },
+          "url" : {
+            "type" : "string",
+            "example" : "http://api.sample.com/gate"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "name"
+          },
+          "model" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/DeviceModel"
+          },
+          "region" : {
+            "type" : "string",
+            "example" : "China,Suzhou"
+          },
+          "floor" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "bluetoothStructure" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/BluetoothStructure"
+          },
+          "connect" : {
+            "type" : "boolean",
+            "example" : false
+          },
+          "longitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 130.32342
+          }
+        }
+      },
+      "GatewayReader" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "dateTime",
+            "example" : "2018-01-02T13:14:12Z"
+          },
+          "headers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Header"
+            }
+          },
+          "distance" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "method" : {
+            "type" : "string",
+            "example" : "POST"
+          },
+          "forward" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "latitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 1.5643
+          },
+          "active" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "remark" : {
+            "type" : "string",
+            "example" : "remarks"
+          },
+          "optional" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Optional"
+          },
+          "deviceId" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "mac" : {
+            "type" : "string",
+            "example" : "11111a1aaa11111a"
+          },
+          "url" : {
+            "type" : "string",
+            "example" : "http://api.sample.com/gate"
+          },
+          "mCoefficient1" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 1.342
+          },
+          "mCoefficient2" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 2.345
+          },
+          "mCoefficient3" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 2.1
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "name"
+          },
+          "model" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/DeviceModel"
+          },
+          "region" : {
+            "type" : "string",
+            "example" : "China,Suzhou"
+          },
+          "floor" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "bluetoothStructure" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/BluetoothStructure"
+          },
+          "connect" : {
+            "type" : "boolean",
+            "example" : false
+          },
+          "longitude" : {
+            "type" : "number",
+            "format" : "float",
+            "example" : 130.32342
+          }
+        }
+      },
+      "Cutoff" : {
+        "type" : "integer",
+        "example" : 10
+      },
+      "Header" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "Content-Type"
+          },
+          "value" : {
+            "type" : "string",
+            "example" : "application/json"
+          }
+        }
+      },
+      "BluetoothStructure" : {
+        "type" : "object",
+        "properties" : {
+          "services" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Service"
+            }
+          },
+          "info" : {
+            "type" : "object",
+            "$ref" : "#/components/schemas/Info"
+          }
+        }
+      },
+      "Service" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "service name"
+          }
+        }
+      },
+      "Info" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "viatick hub"
+          }
+        }
+      }
+    }
+  }
+}
